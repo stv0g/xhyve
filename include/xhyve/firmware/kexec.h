@@ -85,5 +85,5 @@ struct zero_page {
 } __attribute__((packed));
 #pragma clang diagnostic pop
 
-void kexec_init(char *kernel_path, char *initrd_path, char *cmdline);
+int kexec_init(char *opts[]);
 uint64_t kexec(void);

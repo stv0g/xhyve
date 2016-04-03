@@ -112,6 +112,15 @@ static struct bhyvestats {
 	uint64_t cpu_switch_direct;
 } stats;
 
+static const struct loader {
+	char *name;
+	int (*init)(char *opts[]);
+	uint64_t (*load)();
+} *fw_loader, fw_loaders[] = {
+	{ "kexec", kexec_init, kexec },
+	{ "fbsd", fbsd_init, fbsd_load }
+};
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpadded"
 static struct mt_vmm_info {
@@ -119,8 +128,6 @@ static struct mt_vmm_info {
 	int mt_vcpu;
 } mt_vmm_info[VM_MAXCPU];
 #pragma clang diagnostic pop
-
-static uint64_t (*fw_func)(void);
 
 __attribute__ ((noreturn)) static void
 usage(int code)
@@ -257,7 +264,7 @@ vcpu_thread(void *param)
 	assert(error == 0);
 
 	if (vcpu == BSP) {
-		rip_entry = fw_func();
+		rip_entry = fw_loader->load();
 	} else {
 		rip_entry = vmexit[vcpu].rip;
 		spinup_ap_realmode(vcpu, &rip_entry);
@@ -723,50 +730,37 @@ parse_memsize(const char *opt, size_t *ret_memsize)
 
 static int
 firmware_parse(const char *opt) {
-	char *fw, *opt1, *opt2, *opt3, *cp;
+	int ret, i;
+	char *cp, *opts[16] = { NULL };
 
-	fw = strdup(opt);
-
-	if (strncmp(fw, "kexec", strlen("kexec")) == 0) {
-		fw_func = kexec;
-	} else if (strncmp(fw, "fbsd", strlen("fbsd")) == 0) {
-		fw_func = fbsd_load;
-	} else {
+	cp = strdup(opt);
+	
+	/* Find method */
+	for (i = 0; i < (int) nitems(fw_loaders); i++) {
+		if (strncmp(cp, fw_loaders[i].name, strlen(fw_loaders[i].name)) == 0) {
+			fw_loader = &fw_loaders[i];
+			break;
+		}
+	}
+	
+	if (fw_loader == NULL)
 		goto fail;
+
+	/* Split arguments */
+	for (i = 0; i < (int) nitems(opts) - 1; i++) {
+		cp = strchr(cp, ',');
+		if (cp != NULL) {
+			*cp = '\0';
+			opts[i] = ++cp;
+		}
+		else
+			break;
 	}
 
-		if ((cp = strchr(fw, ',')) != NULL) {
-			*cp = '\0';
-			opt1 = cp + 1;
-		} else {
-			goto fail;
-		}
-
-		if ((cp = strchr(opt1, ',')) != NULL) {
-			*cp = '\0';
-			opt2 = cp + 1;
-		} else {
-			goto fail;
-		}
-
-		if ((cp = strchr(opt2, ',')) != NULL) {
-			*cp = '\0';
-			opt3 = cp + 1;
-		} else {
-			goto fail;
-		}
-
-		opt2 = strlen(opt2) ? opt2 : NULL;
-		opt3 = strlen(opt3) ? opt3 : NULL;
-
-	if (fw_func == kexec) {
-		kexec_init(opt1, opt2, opt3);
-	} else if (fw_func == fbsd_load) {
-		/* FIXME: let user set boot-loader serial device */
-		fbsd_init(opt1, opt2, opt3, NULL);
-	} else {
+	/* Initialize loader */
+	ret = fw_loader->init(opts);
+	if (ret)
 		goto fail;
-	}
 
 	return 0;
 
@@ -836,7 +830,7 @@ fail:
 int
 main(int argc, char *argv[])
 {
-	int c, error, gdb_port, bvmcons, fw;
+	int c, error, gdb_port, bvmcons;
 	int dump_guest_memory, max_vcpus, mptgen;
 	int rtc_localtime;
 	uint64_t rip;
@@ -851,7 +845,6 @@ main(int argc, char *argv[])
 	memsize = 256 * MB;
 	mptgen = 1;
 	rtc_localtime = 1;
-	fw = 0;
 
 	while ((c = getopt(argc, argv, "behvuwxMACHPWY:f:F:g:c:s:m:l:U:")) != -1) {
 		switch (c) {
@@ -870,9 +863,6 @@ main(int argc, char *argv[])
 		case 'f':
 			if (firmware_parse(optarg) != 0) {
 				exit (1);
-			} else {
-				fw = 1;
-				break;
 			}
 		case 'F':
 			pidfile = optarg;
@@ -935,7 +925,7 @@ main(int argc, char *argv[])
 		}
 	}
 
-	if (fw != 1)
+	if (fw_loader == NULL)
 		usage(1);
 
 	error = xh_vm_create();

@@ -97,6 +97,5 @@ struct loader_callbacks {
 	const char * (*getenv)(void *arg, int num);
 };
 
-void fbsd_init(char *userboot_path, char *bootvolume_path, char *kernelenv,
-	char *cons);
+int fbsd_init(char *opts[]);
 uint64_t fbsd_load(void);

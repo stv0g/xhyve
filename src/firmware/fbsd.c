@@ -929,14 +929,15 @@ disk_open(char *path)
 	return (err);
 }
 
-void
-fbsd_init(char *userboot_path, char *bootvolume_path, char *kernelenv,
-	char *cons)
+int
+fbsd_init(char *opts[])
 {
-	config.userboot = userboot_path;
-	config.bootvolume = bootvolume_path;
-	config.kernelenv = kernelenv;
-	config.cons = cons;
+	config.userboot = opts[0];
+	config.bootvolume = opts[1];
+	config.kernelenv = opts[2];
+	config.cons = opts[3];
+	
+	return 0;
 }
 
 uint64_t
