@@ -68,6 +68,7 @@
 
 #include <xhyve/firmware/kexec.h>
 #include <xhyve/firmware/fbsd.h>
+#include <xhyve/firmware/multiboot.h>
 
 #define GUEST_NIO_PORT 0x488 /* guest upcalls via i/o port */
 
@@ -118,7 +119,8 @@ static const struct loader {
 	uint64_t (*load)();
 } *fw_loader, fw_loaders[] = {
 	{ "kexec", kexec_init, kexec },
-	{ "fbsd", fbsd_init, fbsd_load }
+	{ "fbsd", fbsd_init, fbsd_load },
+	{ "multiboot", multiboot_init, multiboot }
 };
 
 #pragma clang diagnostic push
@@ -767,7 +769,8 @@ firmware_parse(const char *opt) {
 fail:
 	fprintf(stderr, "Invalid firmware argument\n"
 		"    -f kexec,'kernel','initrd','\"cmdline\"'\n"
-		"    -f fbsd,'userboot','boot volume','\"kernel env\"'\n");
+		"    -f fbsd,'userboot','boot volume','\"kernel env\"'\n"
+		"    -f multiboot,'kernel','\"cmdline\"','initrd','module2','module3'\n");
 
 	return -1;
 }
