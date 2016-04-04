@@ -24,6 +24,12 @@
  * SUCH DAMAGE.
  */
 
+/*
+ * Multiboot Specivication 1 compliant firmware loader.
+ *
+ * See: https://www.gnu.org/software/grub/manual/multiboot/multiboot.pdf
+ */
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
