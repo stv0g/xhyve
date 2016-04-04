@@ -1,4 +1,4 @@
-# [xhyve.org](http://www.xhyve.org)
+# [xhyve.xyz](http://www.xhyve.xyz)
 
 ![](./xhyve_logo.png)
 <!-- https://thenounproject.com/term/squirrel/57718/ -->
@@ -32,11 +32,11 @@ if not then:
 
 Building
 --------
-    $ git clone --recursive https://github.com/mist64/xhyve
+    $ git clone https://github.com/xhyve-xyz/xhyve.git
     $ cd xhyve
-    $ make
+    $ xcodebuild
 
-The resulting binary will be in build/xhyve
+The resulting binary will be in build/Release/xhyve
 
 Usage
 -----
