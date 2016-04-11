@@ -1,28 +1,28 @@
 /*-
-	* Copyright (c) 2016, Steffen Vogel
-	* All rights reserved.
-	*
-	* Redistribution and use in source and binary forms, with or without
-	* modification, are permitted provided that the following conditions
-	* are met:
-	* 1. Redistributions of source code must retain the above copyright
-	*    notice, this list of conditions and the following disclaimer.
-	* 2. Redistributions in binary form must reproduce the above copyright
-	*    notice, this list of conditions and the following disclaimer in the
-	*    documentation and/or other materials provided with the distribution.
-	*
-	* THIS SOFTWARE IS PROVIDED BY ???, INC ``AS IS'' AND
-	* ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-	* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-	* ARE DISCLAIMED.  IN NO EVENT SHALL NETAPP, INC OR CONTRIBUTORS BE LIABLE
-	* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-	* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-	* OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-	* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-	* LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-	* OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-	* SUCH DAMAGE.
-	*/
+* Copyright (c) 2016, Steffen Vogel
+* All rights reserved.
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions
+* are met:
+* 1. Redistributions of source code must retain the above copyright
+*    notice, this list of conditions and the following disclaimer.
+* 2. Redistributions in binary form must reproduce the above copyright
+*    notice, this list of conditions and the following disclaimer in the
+*    documentation and/or other materials provided with the distribution.
+*
+* THIS SOFTWARE IS PROVIDED BY ???, INC ``AS IS'' AND
+* ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+* ARE DISCLAIMED.  IN NO EVENT SHALL NETAPP, INC OR CONTRIBUTORS BE LIABLE
+* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+* OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+* LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+* OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+* SUCH DAMAGE.
+*/
 
 #pragma once
 
@@ -32,9 +32,9 @@ int multiboot_init(char *opts[]);
 uint64_t multiboot(void);
 
 /*
-	*  From: http://git.savannah.gnu.org/cgit/grub.git/plain/doc/multiboot.h?h=multiboot
-	*  Copyright (C) 1999,2003,2007,2008,2009,2010  Free Software Foundation, Inc.
-	*/
+*  From: http://git.savannah.gnu.org/cgit/grub.git/plain/doc/multiboot.h?h=multiboot
+*  Copyright (C) 1999,2003,2007,2008,2009,2010  Free Software Foundation, Inc.
+*/
 
 /* How many bytes from the start of the file we search for the header.  */
 #define MULTIBOOT_SEARCH			8192
@@ -100,8 +100,8 @@ uint64_t multiboot(void);
 #define MULTIBOOT_INFO_APM_TABLE		0x00000400
 
 /* Is there video information?  */
-#define MULTIBOOT_INFO_VBE_INFO		        0x00000800
-#define MULTIBOOT_INFO_FRAMEBUFFER_INFO	        0x00001000
+#define MULTIBOOT_INFO_VBE_INFO			0x00000800
+#define MULTIBOOT_INFO_FRAMEBUFFER_INFO		0x00001000
 
 typedef unsigned char		multiboot_uint8_t;
 typedef unsigned short		multiboot_uint16_t;
@@ -110,46 +110,46 @@ typedef unsigned long long	multiboot_uint64_t;
 
 struct multiboot_header
 {
-	 /* Must be MULTIBOOT_MAGIC - see above.  */
-	 multiboot_uint32_t magic;
+	/* Must be MULTIBOOT_MAGIC - see above.  */
+	multiboot_uint32_t magic;
 
-	 /* Feature flags.  */
-	 multiboot_uint32_t flags;
+	/* Feature flags.  */
+	multiboot_uint32_t flags;
 
-	 /* The above fields plus this one must equal 0 mod 2^32. */
-	 multiboot_uint32_t checksum;
+	/* The above fields plus this one must equal 0 mod 2^32. */
+	multiboot_uint32_t checksum;
 
-	 /* These are only valid if MULTIBOOT_AOUT_KLUDGE is set.  */
-	 multiboot_uint32_t header_addr;
-	 multiboot_uint32_t load_addr;
-	 multiboot_uint32_t load_end_addr;
-	 multiboot_uint32_t bss_end_addr;
-	 multiboot_uint32_t entry_addr;
+	/* These are only valid if MULTIBOOT_AOUT_KLUDGE is set.  */
+	multiboot_uint32_t header_addr;
+	multiboot_uint32_t load_addr;
+	multiboot_uint32_t load_end_addr;
+	multiboot_uint32_t bss_end_addr;
+	multiboot_uint32_t entry_addr;
 
-	 /* These are only valid if MULTIBOOT_VIDEO_MODE is set.  */
-	 multiboot_uint32_t mode_type;
-	 multiboot_uint32_t width;
-	 multiboot_uint32_t height;
-	 multiboot_uint32_t depth;
+	/* These are only valid if MULTIBOOT_VIDEO_MODE is set.  */
+	multiboot_uint32_t mode_type;
+	multiboot_uint32_t width;
+	multiboot_uint32_t height;
+	multiboot_uint32_t depth;
 };
 
 /* The symbol table for a.out.  */
 struct multiboot_aout_symbol_table
 {
-	 multiboot_uint32_t tabsize;
-	 multiboot_uint32_t strsize;
-	 multiboot_uint32_t addr;
-	 multiboot_uint32_t reserved;
+	multiboot_uint32_t tabsize;
+	multiboot_uint32_t strsize;
+	multiboot_uint32_t addr;
+	multiboot_uint32_t reserved;
 };
 typedef struct multiboot_aout_symbol_table multiboot_aout_symbol_table_t;
 
 /* The section header table for ELF.  */
 struct multiboot_elf_section_header_table
 {
-	 multiboot_uint32_t num;
-	 multiboot_uint32_t size;
-	 multiboot_uint32_t addr;
-	 multiboot_uint32_t shndx;
+	multiboot_uint32_t num;
+	multiboot_uint32_t size;
+	multiboot_uint32_t addr;
+	multiboot_uint32_t shndx;
 };
 typedef struct multiboot_elf_section_header_table multiboot_elf_section_header_table_t;
 
@@ -158,129 +158,126 @@ typedef struct multiboot_elf_section_header_table multiboot_elf_section_header_t
 #pragma clang diagnostic ignored "-Wpadded"
 struct multiboot_info
 {
-	 /* Multiboot info version number */
-	 multiboot_uint32_t flags;
+	/* Multiboot info version number */
+	multiboot_uint32_t flags;
 
-	 /* Available memory from BIOS */
-	 multiboot_uint32_t mem_lower;
-	 multiboot_uint32_t mem_upper;
+	/* Available memory from BIOS */
+	multiboot_uint32_t mem_lower;
+	multiboot_uint32_t mem_upper;
 
-	 /* "root" partition */
-	 multiboot_uint32_t boot_device;
+	/* "root" partition */
+	multiboot_uint32_t boot_device;
 
-	 /* Kernel command line */
-	 multiboot_uint32_t cmdline;
+	/* Kernel command line */
+	multiboot_uint32_t cmdline;
 
-	 /* Boot-Module list */
-	 multiboot_uint32_t mods_count;
-	 multiboot_uint32_t mods_addr;
+	/* Boot-Module list */
+	multiboot_uint32_t mods_count;
+	multiboot_uint32_t mods_addr;
 
-	 union
-	 {
-	   multiboot_aout_symbol_table_t aout_sym;
-	   multiboot_elf_section_header_table_t elf_sec;
-	 } u;
+	union {
+		multiboot_aout_symbol_table_t aout_sym;
+		multiboot_elf_section_header_table_t elf_sec;
+	} u;
 
-	 /* Memory Mapping buffer */
-	 multiboot_uint32_t mmap_length;
-	 multiboot_uint32_t mmap_addr;
+	/* Memory Mapping buffer */
+	multiboot_uint32_t mmap_length;
+	multiboot_uint32_t mmap_addr;
 
-	 /* Drive Info buffer */
-	 multiboot_uint32_t drives_length;
-	 multiboot_uint32_t drives_addr;
+	/* Drive Info buffer */
+	multiboot_uint32_t drives_length;
+	multiboot_uint32_t drives_addr;
 
-	 /* ROM configuration table */
-	 multiboot_uint32_t config_table;
+	/* ROM configuration table */
+	multiboot_uint32_t config_table;
 
-	 /* Boot Loader Name */
-	 multiboot_uint32_t boot_loader_name;
+	/* Boot Loader Name */
+	multiboot_uint32_t boot_loader_name;
 
-	 /* APM table */
-	 multiboot_uint32_t apm_table;
+	/* APM table */
+	multiboot_uint32_t apm_table;
 
-	 /* Video */
-	 multiboot_uint32_t vbe_control_info;
-	 multiboot_uint32_t vbe_mode_info;
-	 multiboot_uint16_t vbe_mode;
-	 multiboot_uint16_t vbe_interface_seg;
-	 multiboot_uint16_t vbe_interface_off;
-	 multiboot_uint16_t vbe_interface_len;
+	/* Video */
+	multiboot_uint32_t vbe_control_info;
+	multiboot_uint32_t vbe_mode_info;
+	multiboot_uint16_t vbe_mode;
+	multiboot_uint16_t vbe_interface_seg;
+	multiboot_uint16_t vbe_interface_off;
+	multiboot_uint16_t vbe_interface_len;
 
-	 multiboot_uint64_t framebuffer_addr;
-	 multiboot_uint32_t framebuffer_pitch;
-	 multiboot_uint32_t framebuffer_width;
-	 multiboot_uint32_t framebuffer_height;
-	 multiboot_uint8_t framebuffer_bpp;
+	multiboot_uint64_t framebuffer_addr;
+	multiboot_uint32_t framebuffer_pitch;
+	multiboot_uint32_t framebuffer_width;
+	multiboot_uint32_t framebuffer_height;
+	multiboot_uint8_t framebuffer_bpp;
 #define MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED 0
 #define MULTIBOOT_FRAMEBUFFER_TYPE_RGB     1
 #define MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT	2
-	 multiboot_uint8_t framebuffer_type;
-	 union
-	 {
-	   struct
-	   {
-	     multiboot_uint32_t framebuffer_palette_addr;
-	     multiboot_uint16_t framebuffer_palette_num_colors;
-	   };
-	   struct
-	   {
-	     multiboot_uint8_t framebuffer_red_field_position;
-	     multiboot_uint8_t framebuffer_red_mask_size;
-	     multiboot_uint8_t framebuffer_green_field_position;
-	     multiboot_uint8_t framebuffer_green_mask_size;
-	     multiboot_uint8_t framebuffer_blue_field_position;
-	     multiboot_uint8_t framebuffer_blue_mask_size;
-	   };
-	 };
+	multiboot_uint8_t framebuffer_type;
+	union {
+		struct {
+			multiboot_uint32_t framebuffer_palette_addr;
+			multiboot_uint16_t framebuffer_palette_num_colors;
+		};
+		struct
+		{
+			multiboot_uint8_t framebuffer_red_field_position;
+			multiboot_uint8_t framebuffer_red_mask_size;
+			multiboot_uint8_t framebuffer_green_field_position;
+			multiboot_uint8_t framebuffer_green_mask_size;
+			multiboot_uint8_t framebuffer_blue_field_position;
+			multiboot_uint8_t framebuffer_blue_mask_size;
+		};
+	};
 };
 typedef struct multiboot_info multiboot_info_t;
 
 struct multiboot_color
 {
-	 multiboot_uint8_t red;
-	 multiboot_uint8_t green;
-	 multiboot_uint8_t blue;
+	multiboot_uint8_t red;
+	multiboot_uint8_t green;
+	multiboot_uint8_t blue;
 };
 
 struct multiboot_mmap_entry
 {
-	 multiboot_uint32_t size;
-	 multiboot_uint64_t addr;
-	 multiboot_uint64_t len;
+	multiboot_uint32_t size;
+	multiboot_uint64_t addr;
+	multiboot_uint64_t len;
 #define MULTIBOOT_MEMORY_AVAILABLE		1
 #define MULTIBOOT_MEMORY_RESERVED		2
-#define MULTIBOOT_MEMORY_ACPI_RECLAIMABLE       3
-#define MULTIBOOT_MEMORY_NVS                    4
-#define MULTIBOOT_MEMORY_BADRAM                 5
-	 multiboot_uint32_t type;
+#define MULTIBOOT_MEMORY_ACPI_RECLAIMABLE	3
+#define MULTIBOOT_MEMORY_NVS			4
+#define MULTIBOOT_MEMORY_BADRAM			5
+	multiboot_uint32_t type;
 } __attribute__((packed));
 #pragma clang diagnostic pop
 typedef struct multiboot_mmap_entry multiboot_memory_map_t;
 
 struct multiboot_mod_list
 {
-	 /* the memory used goes from bytes 'mod_start' to 'mod_end-1' inclusive */
-	 multiboot_uint32_t mod_start;
-	 multiboot_uint32_t mod_end;
+	/* the memory used goes from bytes 'mod_start' to 'mod_end-1' inclusive */
+	multiboot_uint32_t mod_start;
+	multiboot_uint32_t mod_end;
 
-	 /* Module command line */
-	 multiboot_uint32_t cmdline;
+	/* Module command line */
+	multiboot_uint32_t cmdline;
 
-	 /* padding to take it to 16 bytes (must be zero) */
-	 multiboot_uint32_t pad;
+	/* padding to take it to 16 bytes (must be zero) */
+	multiboot_uint32_t pad;
 };
 typedef struct multiboot_mod_list multiboot_module_t;
 
 /* APM BIOS info.  */
 struct multiboot_apm_info
 {
-	 multiboot_uint16_t version;
-	 multiboot_uint16_t cseg;
-	 multiboot_uint32_t offset;
-	 multiboot_uint16_t cseg_16;
-	 multiboot_uint16_t dseg;
-	 multiboot_uint16_t flags;
-	 multiboot_uint16_t cseg_len;
-	 multiboot_uint16_t cseg_16_len;
-	 multiboot_uint16_t dseg_len;
+	multiboot_uint16_t version;
+	multiboot_uint16_t cseg;
+	multiboot_uint32_t offset;
+	multiboot_uint16_t cseg_16;
+	multiboot_uint16_t dseg;
+	multiboot_uint16_t flags;
+	multiboot_uint16_t cseg_len;
+	multiboot_uint16_t cseg_16_len;
+	multiboot_uint16_t dseg_len;
 };
