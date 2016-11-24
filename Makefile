@@ -65,7 +65,8 @@ XHYVE_SRC := \
 
 FIRMWARE_SRC := \
 	src/firmware/kexec.c \
-	src/firmware/fbsd.c
+	src/firmware/fbsd.c \
+	src/firmware/multiboot.c
 
 SRC := \
 	$(VMM_SRC) \

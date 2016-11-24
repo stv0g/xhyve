@@ -28,6 +28,11 @@
 
 #include <stdint.h>
 
+#define BASE_KERNEL
+#define BASE_MBINFO	0x9800
+#define BASE_MBMODS	(BASE_MBINFO + sizeof(struct multiboot_info))
+#define BASE_CMDLINE	
+
 int multiboot_init(char *opts[]);
 uint64_t multiboot(void);
 
